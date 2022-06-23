@@ -10,7 +10,7 @@ object Constants {
     val API_KEY = BuildConfig.API_KEY
     val BASE_URL = "https://api.themoviedb.org/"
     val api = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ApiService::class.java)
