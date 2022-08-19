@@ -1,4 +1,4 @@
-package com.hasanmuslemani.tvtracker.data.remote.dto
+package com.hasanmuslemani.tvtracker.data.remote.dto.tv_search
 
 import com.hasanmuslemani.tvtracker.domain.model.TVSearch
 
@@ -21,6 +21,7 @@ data class TVSearchResult (
 fun TVSearchResult.toTVSearch(): TVSearch {
     return TVSearch(
         id = this.id,
-        title = this.name
+        title = this.name,
+        imagePath = this.poster_path
     )
 }

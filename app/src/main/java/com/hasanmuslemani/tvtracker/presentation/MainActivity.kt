@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,16 +27,24 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hasanmuslemani.tvtracker.common.Constants
 import com.hasanmuslemani.tvtracker.data.repository.TVSearchRepositoryImpl
+import com.hasanmuslemani.tvtracker.data.repository.TVShowDetailsRepositoryImpl
 import com.hasanmuslemani.tvtracker.domain.model.TVSearch
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
-val viewModel = MainActivityViewModel(TVSearchRepositoryImpl())
-
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val viewModel: MainActivityViewModel by viewModels {
+            MainActivityViewModelFactory(TVSearchRepositoryImpl(), TVShowDetailsRepositoryImpl())
+        }
+
         setContent {
             if(viewModel.state.value.error.isNotBlank()) {
                 Text("ERROR!!!!")
@@ -46,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             else {
+                Toast.makeText(this, "Vote Count: " + viewModel.detailsState.value, Toast.LENGTH_LONG).show()
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -101,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                     Text(text = "image request failed.")
                 },
                 circularReveal = CircularReveal(duration = 250),
-                imageModel = "https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_.jpg")
+                imageModel = Constants.BASE_IMAGE_URL + tvSearch.imagePath)
             Text(
                 text = tvSearch.title ?: "N/A",
                 modifier = Modifier

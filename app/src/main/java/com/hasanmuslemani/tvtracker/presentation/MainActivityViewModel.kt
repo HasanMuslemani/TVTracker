@@ -1,61 +1,65 @@
 package com.hasanmuslemani.tvtracker.presentation
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.hasanmuslemani.tvtracker.common.Resource
-import com.hasanmuslemani.tvtracker.data.remote.dto.toTVSearch
-import com.hasanmuslemani.tvtracker.domain.model.TVSearch
+import com.hasanmuslemani.tvtracker.data.remote.dto.tv_details.TVShowDetailsDto
+import com.hasanmuslemani.tvtracker.data.remote.dto.tv_search.toTVSearch
 import com.hasanmuslemani.tvtracker.domain.repository.TVSearchRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.hasanmuslemani.tvtracker.domain.repository.TVShowDetailsRepository
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 class MainActivityViewModel constructor(
-    private val repository: TVSearchRepository
+    private val repository: TVSearchRepository,
+    private val detailsRepository: TVShowDetailsRepository
 ) : ViewModel() {
 
     private val _state = mutableStateOf(MainActivityState())
     val state: State<MainActivityState> = _state
 
+    private val _detailsState = mutableStateOf(0)
+    val detailsState: State<Int> = _detailsState
+
     init {
         getTVSearches()
+        getTVShowDetails()
     }
 
     private fun getTVSearches() {
-        invoke().onEach { result ->
-            when(result) {
-                is Resource.Success -> {
-                    _state.value = MainActivityState(tvSearches = result.data ?: emptyList())
-                }
-                is Resource.Loading -> {
-                    _state.value = MainActivityState(isLoading = true)
-                }
-                is Resource.Error -> {
-                    _state.value = MainActivityState(error = result.message ?: "An unexpected error occurred")
-                }
+        viewModelScope.launch {
+            try {
+                _state.value = MainActivityState(isLoading = true)
+                val tvSearches = repository.getTVSearches().results?.map { it.toTVSearch() }
+                _state.value = MainActivityState(tvSearches = tvSearches ?: emptyList())
             }
-        }.launchIn(viewModelScope)
+            catch(e: HttpException) {
+                _state.value = MainActivityState(error = e.localizedMessage ?: "An unexpected error has occurred.")
+            }
+            catch(e: IOException) {
+                _state.value = MainActivityState(error = "Couldn't reach server. Check your internet connection.")
+            }
+        }
     }
 
-    private operator fun invoke(): Flow<Resource<List<TVSearch>>> = flow {
-        try {
-            emit(Resource.Loading())
-            val tvSearches1 = repository.getTVSearches()
-            val tvSearches = tvSearches1.results!!.map { it.toTVSearch() }
-            emit(Resource.Success(tvSearches))
-        }
-        catch(e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error has occurred."))
-        }
-        catch(e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection."))
+    private fun getTVShowDetails() {
+        viewModelScope.launch {
+            val tvShowDetails = detailsRepository.getTVShowDetail()
+            _detailsState.value = tvShowDetails.voteCount ?: 0
         }
     }
+}
+
+class MainActivityViewModelFactory constructor(
+    private val repository: TVSearchRepository,
+    private val detailsRepository: TVShowDetailsRepository
+    ) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return MainActivityViewModel(repository = repository, detailsRepository = detailsRepository) as T
+    }
+
 }

@@ -7,9 +7,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object Constants {
-    val API_KEY = BuildConfig.API_KEY
-    val BASE_URL = "https://api.themoviedb.org/"
-    val api = Retrofit.Builder()
+    const val API_KEY = BuildConfig.API_KEY
+    const val BASE_URL = "https://api.themoviedb.org/"
+    const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/original/"
+    val api: ApiService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

@@ -1,4 +1,4 @@
-package com.hasanmuslemani.tvtracker.data.remote.dto
+package com.hasanmuslemani.tvtracker.data.remote.dto.tv_search
 
 import com.hasanmuslemani.tvtracker.domain.model.TVSearch
 
