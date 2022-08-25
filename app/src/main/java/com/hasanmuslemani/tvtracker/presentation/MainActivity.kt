@@ -40,83 +40,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val viewModel: MainActivityViewModel by viewModels {
-            MainActivityViewModelFactory(TVSearchRepositoryImpl(), TVShowDetailsRepositoryImpl())
-        }
-
         setContent {
-            if(viewModel.state.value.error.isNotBlank()) {
-                Text("ERROR!!!!")
-            }
-            else if(viewModel.state.value.isLoading) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
-            }
-            else {
-                Toast.makeText(this, "Vote Count: " + viewModel.detailsState.value, Toast.LENGTH_LONG).show()
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color(19, 28, 48))
-                ) {
-                    items(viewModel.state.value.tvSearches) { tvSearch ->
-                        TVSearchItem(tvSearch)
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun TVSearchItem(tvSearch: TVSearch) {
-        val constraints = ConstraintSet {
-            val box = createRefFor("box")
-            val image = createRefFor("image")
-            val title = createRefFor("title")
-
-            constrain(box) {
-                top.linkTo(title.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-                bottom.linkTo(parent.bottom)
-            }
-            constrain(title) {
-                top.linkTo(parent.top, 20.dp)
-                start.linkTo(image.end)
-            }
-            constrain(image) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                width = Dimension.value(70.dp)
-                height = Dimension.value(100.dp)
-            }
-        }
-
-        ConstraintLayout(
-            constraints,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)) {
-            Box(modifier = Modifier
-                .background(Color(27, 40, 70))
-                .layoutId("box"))
-            GlideImage(
-                modifier = Modifier
-                    .layoutId("image"),
-                failure = {
-                    Text(text = "image request failed.")
-                },
-                circularReveal = CircularReveal(duration = 250),
-                imageModel = Constants.BASE_IMAGE_URL + tvSearch.imagePath)
-            Text(
-                text = tvSearch.title ?: "N/A",
-                modifier = Modifier
-                    .layoutId("title")
-                    .padding(10.dp))
+            Navigation()
         }
     }
 }
