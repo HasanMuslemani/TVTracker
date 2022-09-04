@@ -4,6 +4,6 @@ import com.hasanmuslemani.tvtracker.data.remote.dto.tv_details.TVShowDetailsDto
 
 interface TVShowDetailsRepository {
 
-    suspend fun getTVShowDetail(): TVShowDetailsDto
+    suspend fun getTVShowDetail(tvShowId: Int): TVShowDetailsDto
 
 }

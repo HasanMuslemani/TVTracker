@@ -7,9 +7,14 @@ import kotlinx.coroutines.delay
 
 class TVSearchRepositoryImpl: TVSearchRepository{
 
-    override suspend fun getTVSearches(): TVSearchDto {
+    override suspend fun getTVSearches(search: String): TVSearchDto {
         delay(1000)
-        return Constants.api.searchTV(key = Constants.API_KEY, search = "T")
+        return Constants.api.searchTV(key = Constants.API_KEY, search = search)
+    }
+
+    override suspend fun getPopularTVShows(): TVSearchDto {
+        delay(1000)
+        return Constants.api.popularTVShows(key = Constants.API_KEY)
     }
 
 }

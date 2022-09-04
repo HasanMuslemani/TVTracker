@@ -22,6 +22,7 @@ fun TVSearchResult.toTVSearch(): TVSearch {
     return TVSearch(
         id = this.id,
         title = this.name,
-        imagePath = this.poster_path
+        imagePath = this.poster_path,
+        firstAired = this.first_air_date
     )
 }

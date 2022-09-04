@@ -2,6 +2,7 @@ package com.hasanmuslemani.tvtracker.data.remote.dto.tv_details
 
 
 import com.google.gson.annotations.SerializedName
+import com.hasanmuslemani.tvtracker.domain.model.TVDetails
 
 data class TVShowDetailsDto(
     @SerializedName("adult")
@@ -69,3 +70,15 @@ data class TVShowDetailsDto(
     @SerializedName("vote_count")
     val voteCount: Int?
 )
+
+fun TVShowDetailsDto.toTVDetails(): TVDetails {
+    return TVDetails(
+        id = this.id,
+        backdropPath = this.backdropPath,
+        posterPath = this.posterPath,
+        name = this.name,
+        overview = this.overview,
+        firstAirDate = this.firstAirDate,
+        status = this.status
+    )
+}

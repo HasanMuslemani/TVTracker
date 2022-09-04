@@ -4,6 +4,7 @@ import com.hasanmuslemani.tvtracker.data.remote.dto.tv_search.TVSearchDto
 
 interface TVSearchRepository {
 
-    suspend fun getTVSearches(): TVSearchDto
+    suspend fun getTVSearches(search: String): TVSearchDto
+    suspend fun getPopularTVShows(): TVSearchDto
 
 }
