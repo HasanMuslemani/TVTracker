@@ -111,8 +111,8 @@ fun TVDetailsItem(tvDetails: TVDetails, navController: NavController) {
         constrain(backBtn) {
             top.linkTo(parent.top, 10.dp)
             start.linkTo(parent.start, 10.dp)
-            width = Dimension.value(45.dp)
-            height = Dimension.value(45.dp)
+            width = Dimension.value(35.dp)
+            height = Dimension.value(35.dp)
         }
 
         constrain(name) {
