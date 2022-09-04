@@ -35,7 +35,9 @@ import com.hasanmuslemani.tvtracker.data.repository.TVShowDetailsRepositoryImpl
 import com.hasanmuslemani.tvtracker.domain.model.TVSearch
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

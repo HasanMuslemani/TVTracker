@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.hasanmuslemani.tvtracker.common.Constants
@@ -47,9 +48,9 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun TVDetailsScreen(
-    viewModel: TVDetailsViewModel = viewModel(),
     navController: NavController
 ) {
+    val viewModel: TVDetailsViewModel = hiltViewModel()
     Box(
         modifier = Modifier
             .background(Color(19, 28, 48))

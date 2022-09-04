@@ -10,13 +10,16 @@ import com.hasanmuslemani.tvtracker.domain.model.TVSearch
 import com.hasanmuslemani.tvtracker.domain.repository.TVSearchRepository
 import com.hasanmuslemani.tvtracker.domain.repository.TVShowDetailsRepository
 import com.hasanmuslemani.tvtracker.presentation.tv_search.TVSearchState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class TVSearchViewModel constructor(
+@HiltViewModel
+class TVSearchViewModel @Inject constructor(
     private val repository: TVSearchRepository,
 ) : ViewModel() {
 
@@ -57,14 +60,4 @@ class TVSearchViewModel constructor(
             getTVSearches(search)
         }
     }
-}
-
-class TVSearchViewModelFactory constructor(
-    private val repository: TVSearchRepository,
-    ) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TVSearchViewModel(repository = repository) as T
-    }
-
 }

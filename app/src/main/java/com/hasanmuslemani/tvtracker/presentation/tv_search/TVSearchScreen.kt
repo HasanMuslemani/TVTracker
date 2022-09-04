@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.hasanmuslemani.tvtracker.common.Constants
@@ -41,13 +42,9 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun TVSearchScreen(
-    viewModel: TVSearchViewModel = viewModel(
-        factory = TVSearchViewModelFactory(
-            TVSearchRepositoryImpl()
-        )
-    ),
     navController: NavController
 ) {
+    val viewModel: TVSearchViewModel = hiltViewModel()
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = Color(0xFF001529)) {

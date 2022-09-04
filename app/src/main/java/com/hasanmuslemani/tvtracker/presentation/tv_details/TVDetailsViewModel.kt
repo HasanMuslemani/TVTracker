@@ -10,15 +10,18 @@ import androidx.lifecycle.viewModelScope
 import com.hasanmuslemani.tvtracker.data.remote.dto.tv_details.toTVDetails
 import com.hasanmuslemani.tvtracker.data.repository.TVShowDetailsRepositoryImpl
 import com.hasanmuslemani.tvtracker.domain.repository.TVShowDetailsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class TVDetailsViewModel constructor(
+@HiltViewModel
+class TVDetailsViewModel @Inject constructor(
+    private val repository: TVShowDetailsRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val repository: TVShowDetailsRepository = TVShowDetailsRepositoryImpl()
     private val _state = mutableStateOf(TVDetailsState())
     val state: State<TVDetailsState> = _state
 
@@ -46,13 +49,3 @@ class TVDetailsViewModel constructor(
     }
 
 }
-
-//class TVDetailsViewModelFactory constructor(
-//    private val repository: TVShowDetailsRepository,
-//) : ViewModelProvider.Factory {
-//
-//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//        return TVDetailsViewModel(repository = repository) as T
-//    }
-//
-//}
