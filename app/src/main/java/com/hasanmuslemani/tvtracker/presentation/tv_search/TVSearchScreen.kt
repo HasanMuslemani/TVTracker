@@ -12,6 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.Watch
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,8 +57,21 @@ fun TVSearchScreen(
                     },
                     onSearchClicked = {
                         viewModel.getTVSearches(it)
-                    }
+                    },
+                    modifier = Modifier.weight(9f)
                 )
+                IconButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Visibility,
+                        contentDescription = "Search Icon",
+                        tint = Color.White
+                    )
+                }
             }
         }
     ) {

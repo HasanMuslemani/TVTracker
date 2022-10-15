@@ -3,9 +3,10 @@ package com.hasanmuslemani.tvtracker.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.hasanmuslemani.tvtracker.data.local.dao.TVShowDao
+import com.hasanmuslemani.tvtracker.data.local.entity.TVShowEntity
 
 @Database(
-    entities = [],
+    entities = [TVShowEntity::class],
     version = 1,
     exportSchema = false
 )

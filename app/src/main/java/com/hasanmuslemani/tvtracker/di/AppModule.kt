@@ -1,6 +1,9 @@
 package com.hasanmuslemani.tvtracker.di
 
+import android.app.Application
+import androidx.room.Room
 import com.hasanmuslemani.tvtracker.common.Constants
+import com.hasanmuslemani.tvtracker.data.local.TVShowDatabase
 import com.hasanmuslemani.tvtracker.data.remote.ApiService
 import com.hasanmuslemani.tvtracker.data.repository.TVSearchRepositoryImpl
 import com.hasanmuslemani.tvtracker.data.repository.TVShowDetailsRepositoryImpl
@@ -30,13 +33,23 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideTVShowDb(context: Application): TVShowDatabase {
+        return Room.databaseBuilder(
+            context,
+            TVShowDatabase::class.java,
+            "tv_show_db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
     fun provideTVSearchRepository(api: ApiService): TVSearchRepository {
         return TVSearchRepositoryImpl(api)
     }
 
     @Provides
     @Singleton
-    fun provideTVShowDetailsRepository(api: ApiService): TVShowDetailsRepository {
-        return TVShowDetailsRepositoryImpl(api)
+    fun provideTVShowDetailsRepository(api: ApiService, db: TVShowDatabase): TVShowDetailsRepository {
+        return TVShowDetailsRepositoryImpl(api, db)
     }
 }

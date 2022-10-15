@@ -20,14 +20,14 @@ import androidx.compose.ui.unit.sp
 fun SearchBar(
     placeholder: String,
     onTextChange: (String) -> Unit,
-    onSearchClicked: (String) -> Unit
+    onSearchClicked: (String) -> Unit,
+    modifier: Modifier
 ) {
     var text by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
     TextField(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = modifier,
         value = text,
         onValueChange = {
             text = it
