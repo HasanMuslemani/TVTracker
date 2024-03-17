@@ -60,18 +60,6 @@ fun TVSearchScreen(
                     },
                     modifier = Modifier.weight(9f)
                 )
-                IconButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Visibility,
-                        contentDescription = "Search Icon",
-                        tint = Color.White
-                    )
-                }
             }
         }
     ) {
@@ -100,13 +88,25 @@ fun TVSearchScreen(
                     )
                 }
             } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    items(state.tvSearches) { tvSearch ->
-                        TVSearchItem(tvSearch) {
-                            navController.navigate(Screen.TVDetailsScreen.route + "/${tvSearch.id}")
+                if (state.tvSearches.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = "No TV Shows match this search.",
+                            textAlign = TextAlign.Center,
+                            color = Color.White,
+                            fontSize = 18.sp
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        items(state.tvSearches) { tvSearch ->
+                            TVSearchItem(tvSearch) {
+                                navController.navigate(Screen.TVDetailsScreen.route + "/${tvSearch.id}")
+                            }
                         }
                     }
                 }
