@@ -2,6 +2,7 @@ package com.hasanmuslemani.tvtracker.common
 
 import com.hasanmuslemani.tvtracker.BuildConfig
 import com.hasanmuslemani.tvtracker.data.remote.ApiService
+import com.hasanmuslemani.tvtracker.presentation.Screen
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create

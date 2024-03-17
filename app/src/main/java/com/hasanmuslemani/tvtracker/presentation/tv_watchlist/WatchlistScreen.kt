@@ -51,13 +51,25 @@ fun WatchlistScreen(
         }
         else {
             val watchlist = state.watchlist
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                items(watchlist) { tvShow ->
-                    TVSearchItem(tvSearch = tvShow) {
-                        navController.navigate(Screen.TVDetailsScreen.route + "/${tvShow.id}")
+            if (watchlist.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "Your watchlist is empty. Add TV Shows to your watchlist to view them here.",
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        fontSize = 18.sp
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    items(watchlist) { tvShow ->
+                        TVSearchItem(tvSearch = tvShow) {
+                            navController.navigate(Screen.TVDetailsScreen.route + "/${tvShow.id}")
+                        }
                     }
                 }
             }

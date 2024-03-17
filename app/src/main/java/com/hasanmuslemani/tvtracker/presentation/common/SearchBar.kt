@@ -86,7 +86,8 @@ fun SearchBar(
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             backgroundColor = Color.Transparent,
-            cursorColor = Color.White.copy(alpha = ContentAlpha.medium)
+            cursorColor = Color.White.copy(alpha = ContentAlpha.medium),
+            focusedIndicatorColor = Color.Transparent
         )
     )
 }
