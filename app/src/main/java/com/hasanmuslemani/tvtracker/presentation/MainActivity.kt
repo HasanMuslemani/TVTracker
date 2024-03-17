@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -64,8 +65,11 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }
-            ) {
-                Navigation(navController)
+            ) { innerPadding ->
+                Navigation(
+                    modifier = Modifier.padding(innerPadding),
+                    navController = navController
+                )
             }
         }
     }

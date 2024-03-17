@@ -1,6 +1,7 @@
 package com.hasanmuslemani.tvtracker.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,10 +18,11 @@ val bottomNavRoutes = listOf(
 
 @Composable
 fun Navigation(
+    modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
     val watchlistViewModel: WatchlistViewModel = hiltViewModel()
-    NavHost(navController = navController, startDestination = Screen.TVSearchScreen.route) {
+    NavHost(modifier = modifier, navController = navController, startDestination = Screen.TVSearchScreen.route) {
         composable(route = Screen.TVSearchScreen.route) {
             TVSearchScreen(navController = navController)
         }

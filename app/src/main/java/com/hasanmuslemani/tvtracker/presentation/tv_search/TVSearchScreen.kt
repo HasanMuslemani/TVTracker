@@ -62,9 +62,11 @@ fun TVSearchScreen(
                 )
             }
         }
-    ) {
+    ) { innerPadding ->
         Box(
-            modifier = Modifier.background(Color(19, 28, 48))
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(Color(19, 28, 48))
         ) {
             val state = viewModel.state.value
             if (state.error.isNotBlank()) {

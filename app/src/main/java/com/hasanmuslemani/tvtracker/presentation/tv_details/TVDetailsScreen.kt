@@ -9,6 +9,7 @@ import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -40,34 +41,42 @@ fun TVDetailsScreen(
     watchlistViewModel: WatchlistViewModel
 ) {
     val viewModel: TVDetailsViewModel = hiltViewModel()
-    Box(
-        modifier = Modifier
-            .background(Color(19, 28, 48))
-            .fillMaxSize()
-    ) {
-        val state = viewModel.state.value
-        if (state.error.isNotBlank()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    state.error,
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    fontSize = 24.sp
+    Scaffold { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(Color(19, 28, 48))
+                .fillMaxSize()
+        ) {
+            val state = viewModel.state.value
+            if (state.error.isNotBlank()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        state.error,
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        fontSize = 24.sp
+                    )
+                }
+            } else if (viewModel.state.value.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = Color.White
                 )
-            }
-        } else if (viewModel.state.value.isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.White
-            )
-        } else {
-            val tvDetails = state.tvDetails
-            if (tvDetails != null) {
-                TVDetailsItem(tvDetails = tvDetails, viewModel = viewModel, navController = navController, watchlistViewModel)
+            } else {
+                val tvDetails = state.tvDetails
+                if (tvDetails != null) {
+                    TVDetailsItem(
+                        tvDetails = tvDetails,
+                        viewModel = viewModel,
+                        navController = navController,
+                        watchlistViewModel
+                    )
+                }
             }
         }
     }
@@ -75,11 +84,6 @@ fun TVDetailsScreen(
 
 @Composable
 fun TVDetailsItem(tvDetails: TVDetails, viewModel: TVDetailsViewModel, navController: NavController, watchlistViewModel: WatchlistViewModel) {
-//    val backStackEntry = remember {
-//        navController.getBackStackEntry(Screen.WatchlistScreen.route)
-//    }
-//    val watchlistViewModel: WatchlistViewModel = hiltViewModel(backStackEntry)
-
     val constraints = ConstraintSet {
         val posterImg = createRefFor("posterImg")
         val backdropImg = createRefFor("backdropImg")
